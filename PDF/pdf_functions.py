@@ -1,4 +1,6 @@
 from PyPDF2 import PdfReader, PdfWriter
+import pdfkit
+
 
 def extract_pages_from_pdf(input_pdf_path, start_page, end_page, output_pdf_path):
     """
@@ -23,3 +25,21 @@ def extract_pages_from_pdf(input_pdf_path, start_page, end_page, output_pdf_path
         pdf_writer.write(output_file)
 
     print(f"Extracted pages {start_page} to {end_page} and saved to {output_pdf_path}")
+
+
+def convert_wikipedia_to_pdf(article_url, output_path='output.pdf', wkhtmltopdf_path='C:/Program Files/wkhtmltopdf/bin/wkhtmltopdf.exe'):
+    """
+    Converts a Wikipedia article to a PDF file using the pdfkit library.
+
+    Args:
+        article_url (str): The URL of the Wikipedia article to convert.
+        output_path (str): The file path where the PDF will be saved. Defaults to 'output.pdf'.
+        wkhtmltopdf_path (str): The path to the wkhtmltopdf executable. Defaults to 'C:/Program Files/wkhtmltopdf/bin/wkhtmltopdf.exe'.
+
+    Returns:
+        None
+    """
+    config = pdfkit.configuration(wkhtmltopdf=wkhtmltopdf_path)
+    pdfkit.from_url(article_url, output_path, configuration=config)
+
+    print(f"Converted Wikipedia article '{article_url}' and saved as '{output_path}'")
